@@ -1,0 +1,124 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: releases.helm.snorwin.io
+spec:
+  group: helm.snorwin.io
+  names:
+    kind: Release
+    listKind: ReleaseList
+    plural: releases
+    singular: release
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: Release is the Schema for the releases API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ReleaseSpec defines the desired state of a Helm Release
+            properties:
+              chart:
+                description: ChartRef is the reference to the Helm Chart object
+                properties:
+                  apiVersion:
+                    description: APIVersion is the API group and version for the resource
+                      being referenced
+                    type: string
+                  kind:
+                    description: Kind is the type of resource being referenced
+                    type: string
+                  name:
+                    description: Name is the name of resource being referenced
+                    type: string
+                  namespace:
+                    description: Namespace is the name of resource being referenced
+                    type: string
+                required:
+                - apiVersion
+                - kind
+                - name
+                type: object
+              values:
+                description: ValuesRefs are the references to the Helm Values objects
+                items:
+                  properties:
+                    apiVersion:
+                      description: APIVersion is the API group and version for the
+                        resource being referenced
+                      type: string
+                    kind:
+                      description: Kind is the type of resource being referenced
+                      type: string
+                    name:
+                      description: Name is the name of resource being referenced
+                      type: string
+                    namespace:
+                      description: Namespace is the name of resource being referenced
+                      type: string
+                  required:
+                  - apiVersion
+                  - kind
+                  - name
+                  type: object
+                type: array
+            required:
+            - chart
+            type: object
+          status:
+            description: ReleaseStatus defines the observed state of a Helm Release
+            properties:
+              description:
+                description: Description is human-friendly "log entry" about this
+                  release.
+                type: string
+              firstDeployedTime:
+                description: FirstDeployedTime is when the release was first deployed.
+                format: date-time
+                nullable: true
+                type: string
+              lastDeployedTime:
+                description: LastDeployedTime is when the release was last deployed.
+                format: date-time
+                nullable: true
+                type: string
+              notes:
+                description: Notes contains the rendered templates/NOTES.txt if available
+                type: string
+              status:
+                description: Status is the current state of the release
+                type: string
+              version:
+                description: Version is an int which represents the revision of the
+                  release.\
+                type: integer
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

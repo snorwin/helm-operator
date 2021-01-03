@@ -1,0 +1,7 @@
+apiVersion: helm.snorwin.io/v1
+kind: Values
+metadata:
+  name: values-sample
+spec:
+  # Add fields here
+  foo: bar
